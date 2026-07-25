@@ -30,7 +30,7 @@ I'll walk through three small Python simulations, in increasing order of realism
 
 Sailors know CBDR as a warning sign: if another vessel's bearing from your own ship stays constant while the range closes, you are on a collision course.
 
-`CBDR.py` turns that warning into a guidance rule — instead of avoiding the constant bearing, the interceptor deliberately holds it.
+[`CBDR.py`](CBDR.py) turns that warning into a guidance rule — instead of avoiding the constant bearing, the interceptor deliberately holds it.
 
 We know the equation of a straight line:
 
@@ -100,7 +100,7 @@ Where:
 
 The intuition is that if the LOS is changing, you're not on a collision course, so turn harder in proportion to both how fast the bearing is rotating and how fast you're closing.
 
-In `ProNav2D.py`, each of these is computed directly from position history, so nothing about the target's future path is assumed:
+In [`ProNav2D.py`](ProNav2D.py), each of these is computed directly from position history, so nothing about the target's future path is assumed:
 
 ```python
 lambda_los = math.atan2(target_coordinates_xy[1] - interceptor_coordinates_xy[1], target_coordinates_xy[0] - interceptor_coordinates_xy[0])
@@ -153,6 +153,8 @@ where $\vec R$ is the relative position (target minus interceptor) and $\vec V_r
 The commanded acceleration follows the same cross-product pattern, replacing the scalar multiplication $V_c \cdot \dot\lambda$ with a vector cross product $\vec V_r \times \vec\omega$:
 
 $$\vec a_n = N \vec V_r \times \vec\omega$$
+
+The implementation in [`ProNav3D`](ProNav3D.py) is as follows:
 
 ```python
 omega_xyz_times_RdotR = cross3D(R_xyz, Vr_xyz)
