@@ -50,14 +50,14 @@ $$d_{new} = y + v_ydt - m(x+v_xdt) = y - mx + v_ydt - mv_xdt = d_{old} + v_ydt -
 d_1 = d_0 + target_velocity_xy[1]*dt - m*target_velocity_xy[0]*dt
 ```
 
-Then the interceptor asks: where on that line can it land, given it can only travel a distance of $\left|v_i\right|dt$ this step? That's a line–circle intersection — a quadratic equation:
+Then the interceptor asks: where on that line can it land, given it can only travel a distance of $\lVert v_i \rVert dt$ this step? That's a line–circle intersection — a quadratic equation:
 
 $$\begin{cases}
-  (y-y_i)^2+(x-x_i)^2=(|v_i|dt)^2 \\
+  (y-y_i)^2+(x-x_i)^2=(\lVert v_i \rVert dt)^2 \\
   y=mx+d_{new}
 \end{cases}$$
 
-$$(mx+d_{new}-y_i)^2+(x-x_i)^2-(|v_i|dt)^2=(m^2+1)x^2+(2md_{new}-2my_i - 2x_i)x+(d_{new}-y_i)^2+x_i^2-(|v_i|dt)^2=0$$
+$$(mx+d_{new}-y_i)^2+(x-x_i)^2-(\lVert v_i \rVert dt)^2=(m^2+1)x^2+(2md_{new}-2my_i - 2x_i)x+(d_{new}-y_i)^2+x_i^2-(\lVert v_i \rVert dt)^2=0$$
 
 $$ax^2+bx+c=0$$
 
