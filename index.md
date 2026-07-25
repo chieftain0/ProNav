@@ -47,7 +47,11 @@ d_0 = target_coordinates_xy[1] - m * target_coordinates_xy[0]
 
 That slope $m$ is the bearing that the interceptor wants to **keep constant**. Each step, the target moves and the line is translated (same slope, new y-intercept) to pass through the target's new position:
 
-$$d_{new} = y + v_ydt - m(x+v_xdt) = y - mx + v_ydt - mv_xdt = d_{old} + v_ydt - mv_xdt$$
+$$d_{new} = y + v_ydt - m(x+v_xdt)$$
+
+$$ = y - mx + v_ydt - mv_xdt$$
+
+$$ = d_{old} + v_ydt - mv_xdt$$
 
 ```python
 d_1 = d_0 + target_velocity_xy[1]*dt - m*target_velocity_xy[0]*dt
