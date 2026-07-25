@@ -1,0 +1,5 @@
+title: ""
+theme: null
+markdown: kramdown
+kramdown:
+  math_engine: mathjax
