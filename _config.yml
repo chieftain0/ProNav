@@ -1,4 +1,5 @@
 title: ""
+description: "Navigation and Guidance"
 markdown: kramdown
 kramdown:
   math_engine: mathjax
