@@ -162,17 +162,3 @@ No separate "which way is normal" trigonometry is needed here, because the cross
 - **ProNav3D** shows that the 2D law isn't a special case — it's a vector identity that extends cleanly once you replace scalar bearing rate with an angular velocity vector.
 
 Same principle throughout: **null the LOS rotation rate, and you're on a collision course.**
-
-<!-- Load the KaTeX stylesheet and core JavaScript engine -->
-<link rel="stylesheet" href="https://jsdelivr.net">
-<script defer src="https://jsdelivr.net"></script>
-
-<!-- Load the Auto-Render extension to find and render math elements -->
-<script defer src="https://jsdelivr.net"
-    onload="renderMathInElement(document.body, {
-        delimiters: [
-            {left: '$$', right: '$$', display: true},
-            {left: '$', right: '$', display: false}
-        ]
-    });">
-</script>
