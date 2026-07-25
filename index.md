@@ -60,7 +60,9 @@ $$\begin{cases}
   y=mx+d_{new}
 \end{cases}$$
 
-$$(mx+d_{new}-y_i)^2+(x-x_i)^2-(\lVert v_i \rVert dt)^2=(m^2+1)x^2+(2md_{new}-2my_i - 2x_i)x+(d_{new}-y_i)^2+x_i^2-(\lVert v_i \rVert dt)^2=0$$
+$$(mx+d_{new}-y_i)^2+(x-x_i)^2-(\lVert v_i \rVert dt)^2=0$$
+
+$$(m^2+1)x^2+(2md_{new}-2my_i - 2x_i)x+(d_{new}-y_i)^2+x_i^2-(\lVert v_i \rVert dt)^2=0$$
 
 $$ax^2+bx+c=0$$
 
@@ -135,6 +137,7 @@ The target itself isn't flying straight either. This also demonstrates PN's robu
 Missiles don't fly in a plane, so the last step is generalizing the scalar PN law to full 3D. The trick is that $\dot\lambda$ (a scalar rotation rate in 2D) becomes an **angular velocity vector** $\vec\omega$ in 3D, the rate at which the line-of-sight vector is rotating about some axis, computed the same way you would compute angular velocity for any rotating body:
 
 $$\vec V_r = \vec\omega \times \vec R $$
+
 $$\vec R \times \vec V_r = \vec R \times (\vec \omega \times \vec R)= \vec \omega (\vec R \cdot \vec R) - (\vec R \cdot \vec \omega) \vec R$$
 
 since $\vec R \perp \vec \omega$, the term $\vec R \cdot \vec \omega$ is zero. Therefore:
