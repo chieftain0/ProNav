@@ -3,6 +3,9 @@ MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
     displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  chtml: {
+    linebreaks: { automatic: true }
   }
 };
 </script>
