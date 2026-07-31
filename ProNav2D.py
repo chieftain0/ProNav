@@ -5,6 +5,8 @@ import matplotlib.animation as animation
 timer = 0
 dt = 1
 
+g_const = 9.81
+
 N = 5
 a_n = 0
 V_c = 0
@@ -22,6 +24,7 @@ interceptor_velocity_xy = [0.0, interceptor_velocity_magnitude]
 target_px, target_py = [], []
 interceptor_px, interceptor_py = [], []
 los_frames = []
+accel_g_history = []
 
 prev_distance = math.dist(target_coordinates_xy, interceptor_coordinates_xy)
 
@@ -88,6 +91,7 @@ while (
     interceptor_py.append(interceptor_coordinates_xy[1])
     los_frames.append(([interceptor_coordinates_xy[0], target_coordinates_xy[0]], [
                       interceptor_coordinates_xy[1], target_coordinates_xy[1]],))
+    accel_g_history.append(abs(a_n) / g_const)
 
 fig, ax = plt.subplots()
 
@@ -103,6 +107,8 @@ def update(i):
     ax.set_xlim(0, 25000)
     ax.set_ylim(0, 10000)
     ax.legend(loc="upper right")
+    ax.text(
+        0.02, 0.90, f"G: {accel_g_history[i]:.1f}", transform=ax.transAxes)
 
 
 ani = animation.FuncAnimation(fig, update, frames=len(target_px), interval=50)

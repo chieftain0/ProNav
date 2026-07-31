@@ -17,6 +17,9 @@ def dot3D(a, b):
 
 timer = 0
 dt = 1
+
+g_const = 9.81
+
 N = 3
 a_xyz = [0.0, 0.0, 0.0]
 Vr_xyz = [0.0, 0.0, 0.0]
@@ -37,6 +40,7 @@ interceptor_velocity_norm_xyz = [0.0, 0.0, 0.0]
 target_px, target_py, target_pz = [], [], []
 interceptor_px, interceptor_py, interceptor_pz = [], [], []
 los_frames = []
+accel_g_history = []
 
 while (
     math.dist(target_coordinates_xyz, interceptor_coordinates_xyz)
@@ -63,6 +67,10 @@ while (
         target_velocity_norm_xyz[2] * target_velocity_magnitude
     )
 
+    target_coordinates_xyz[0] += target_velocity_xyz[0] * dt
+    target_coordinates_xyz[1] += target_velocity_xyz[1] * dt
+    target_coordinates_xyz[2] += target_velocity_xyz[2] * dt
+
     # Calculate closing velocity
     Vr_xyz[0] = target_velocity_xyz[0] - \
         interceptor_velocity_xyz[0]
@@ -87,35 +95,27 @@ while (
     a_xyz = [a_xyz_divide_N[0] * N,
              a_xyz_divide_N[1] * N, a_xyz_divide_N[2] * N]
 
+    # Apply the acceleration
     interceptor_velocity_xyz[0] += a_xyz[0] * dt
     interceptor_velocity_xyz[1] += a_xyz[1] * dt
     interceptor_velocity_xyz[2] += a_xyz[2] * dt
 
+    # Normalize the velocity to constant speed
     spd = math.dist(interceptor_velocity_xyz, [0.0, 0.0, 0.0])
     interceptor_velocity_norm_xyz[0] = interceptor_velocity_xyz[0] / spd
     interceptor_velocity_norm_xyz[1] = interceptor_velocity_xyz[1] / spd
     interceptor_velocity_norm_xyz[2] = interceptor_velocity_xyz[2] / spd
+    interceptor_velocity_xyz[0] = interceptor_velocity_norm_xyz[0] * \
+        interceptor_velocity_magnitude
+    interceptor_velocity_xyz[1] = interceptor_velocity_norm_xyz[1] * \
+        interceptor_velocity_magnitude
+    interceptor_velocity_xyz[2] = interceptor_velocity_norm_xyz[2] * \
+        interceptor_velocity_magnitude
 
-    interceptor_velocity_xyz[0] = (
-        interceptor_velocity_norm_xyz[0] *
-        interceptor_velocity_magnitude
-    )
-    interceptor_velocity_xyz[1] = (
-        interceptor_velocity_norm_xyz[1] *
-        interceptor_velocity_magnitude
-    )
-    interceptor_velocity_xyz[2] = (
-        interceptor_velocity_norm_xyz[2] *
-        interceptor_velocity_magnitude
-    )
-
+    # Move the interceptor
     interceptor_coordinates_xyz[0] += interceptor_velocity_xyz[0] * dt
     interceptor_coordinates_xyz[1] += interceptor_velocity_xyz[1] * dt
     interceptor_coordinates_xyz[2] += interceptor_velocity_xyz[2] * dt
-
-    target_coordinates_xyz[0] += target_velocity_xyz[0] * dt
-    target_coordinates_xyz[1] += target_velocity_xyz[1] * dt
-    target_coordinates_xyz[2] += target_velocity_xyz[2] * dt
 
     target_px.append(target_coordinates_xyz[0])
     target_py.append(target_coordinates_xyz[1])
@@ -130,6 +130,8 @@ while (
             [interceptor_coordinates_xyz[2], target_coordinates_xyz[2]],
         )
     )
+    accel_mag = math.hypot(a_xyz[0], a_xyz[1], a_xyz[2])
+    accel_g_history.append(accel_mag / g_const)
 
 
 fig = plt.figure()
@@ -160,6 +162,8 @@ def update(i):
     ax.set_ylim(0, 10000)
     ax.set_zlim(0, 10000)
     ax.legend(loc="upper right")
+    ax.text2D(
+        0.02, 0.95, f"G: {accel_g_history[i]:.1f}", transform=ax.transAxes)
 
 
 ani = animation.FuncAnimation(fig, update, frames=len(target_px), interval=50)
