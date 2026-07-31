@@ -44,6 +44,7 @@ while (
 ):
     timer += dt
 
+    # Target is maneuvring
     target_velocity_norm_xyz[1] = 0.75 * math.cos(w_target * timer)
     target_velocity_norm_xyz[2] = -0.75 * math.sin(w_target * timer)
     target_velocity_norm_xyz[0] = math.sqrt(
@@ -62,6 +63,7 @@ while (
         target_velocity_norm_xyz[2] * target_velocity_magnitude
     )
 
+    # Calculate closing velocity
     Vr_xyz[0] = target_velocity_xyz[0] - \
         interceptor_velocity_xyz[0]
     Vr_xyz[1] = target_velocity_xyz[1] - \
@@ -69,16 +71,18 @@ while (
     Vr_xyz[2] = target_velocity_xyz[2] - \
         interceptor_velocity_xyz[2]
 
+    # Calculate the relative position
     R_xyz[0] = target_coordinates_xyz[0] - interceptor_coordinates_xyz[0]
     R_xyz[1] = target_coordinates_xyz[1] - interceptor_coordinates_xyz[1]
     R_xyz[2] = target_coordinates_xyz[2] - interceptor_coordinates_xyz[2]
 
+    # Finally calculate the required lateral acceleration
     omega_xyz_times_RdotR = cross3D(R_xyz, Vr_xyz)
+    # or RdotR = math.hypot(R_xyz[0], R_xyz[1], R_xyz[2])**2
     RdotR = dot3D(R_xyz, R_xyz)
     omega_xyz[0] = omega_xyz_times_RdotR[0] / RdotR
     omega_xyz[1] = omega_xyz_times_RdotR[1] / RdotR
     omega_xyz[2] = omega_xyz_times_RdotR[2] / RdotR
-
     a_xyz_divide_N = cross3D(Vr_xyz, omega_xyz)
     a_xyz = [a_xyz_divide_N[0] * N,
              a_xyz_divide_N[1] * N, a_xyz_divide_N[2] * N]

@@ -40,10 +40,10 @@ while (
     target_velocity_norm_xy[1] = math.cos(target_omega * timer)
     target_velocity_norm_xy[0] = math.sqrt(
         1 - math.pow(target_velocity_norm_xy[1], 2))
-    target_coordinates_xy[1] = target_coordinates_xy[1] + \
-        (target_velocity_magnitude * target_velocity_norm_xy[1])*dt
-    target_coordinates_xy[0] = target_coordinates_xy[0] + \
-        (target_velocity_magnitude * target_velocity_norm_xy[0])*dt
+    target_coordinates_xy[1] += (target_velocity_magnitude *
+                                 target_velocity_norm_xy[1]) * dt
+    target_coordinates_xy[0] += (target_velocity_magnitude *
+                                 target_velocity_norm_xy[0]) * dt
 
     # Calculate the distance and the closing velocity
     distance = math.dist(target_coordinates_xy, interceptor_coordinates_xy)
@@ -67,10 +67,8 @@ while (
     theta_a_n = theta_V + math.pi / 2
 
     # Apple the calculated lateral acceleration
-    interceptor_velocity_xy[0] = interceptor_velocity_xy[0] + \
-        a_n * math.cos(theta_a_n)
-    interceptor_velocity_xy[1] = interceptor_velocity_xy[1] + \
-        a_n * math.sin(theta_a_n)
+    interceptor_velocity_xy[0] += a_n * math.cos(theta_a_n)*dt
+    interceptor_velocity_xy[1] += a_n * math.sin(theta_a_n)*dt
 
     # Fix the velocity of interceptor to its fixed speed
     velocity_with_a_n = math.hypot(
@@ -81,10 +79,8 @@ while (
         interceptor_velocity_magnitude * interceptor_velocity_xy[0] / velocity_with_a_n)
 
     # Maneuver the interceptor
-    interceptor_coordinates_xy[1] = (
-        interceptor_coordinates_xy[1] + interceptor_velocity_xy[1] * dt)
-    interceptor_coordinates_xy[0] = (
-        interceptor_coordinates_xy[0] + interceptor_velocity_xy[0] * dt)
+    interceptor_coordinates_xy[0] += interceptor_velocity_xy[0] * dt
+    interceptor_coordinates_xy[1] += interceptor_velocity_xy[1] * dt
 
     target_px.append(target_coordinates_xy[0])
     target_py.append(target_coordinates_xy[1])

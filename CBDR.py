@@ -29,10 +29,8 @@ los_frames = []
 while math.dist(target_coordinates_xy, interceptor_coordinates_xy) >= interceptor_velocity_magnitude*dt:
 
     # Target is maneuvring
-    target_coordinates_xy[0] = target_coordinates_xy[0] + \
-        dt * target_velocity_xy[0]
-    target_coordinates_xy[1] = target_coordinates_xy[1] + \
-        dt * target_velocity_xy[1]
+    target_coordinates_xy[0] += dt * target_velocity_xy[0]
+    target_coordinates_xy[1] += dt * target_velocity_xy[1]
 
     # Calculate the y-intercept of the shifted line
     d_1 = d_0 + target_velocity_xy[1]*dt-m*target_velocity_xy[0]*dt

@@ -104,18 +104,13 @@ In [`ProNav2D.py`](https://github.com/chieftain0/ProNav/blob/main/ProNav2D.py), 
 
 ```python
 lambda_los = math.atan2(target_coordinates_xy[1] - interceptor_coordinates_xy[1], target_coordinates_xy[0] - interceptor_coordinates_xy[0])
-
 V_c = -(distance - prev_distance) / dt
-
 angle_diff = (lambda_los - prev_lambda_los + math.pi) % (2 * math.pi) - math.pi
-
 lambda_dot = angle_diff / dt
+a_n = N * V_c * lambda_dot
 
 prev_lambda_los = lambda_los
-
 prev_distance = distance
-
-a_n = N * V_c * lambda_dot
 ```
 
 (The `% (2*math.pi) - math.pi` wrap keeps the angle difference in $(-\pi, \pi]$ so a bearing crossing from $+179°$ to $-179°$ doesn't get misread as a huge rotation.)
@@ -128,8 +123,8 @@ $$\theta_{a_n} = \theta_v + \frac{\pi}{2} \qquad \theta_v = \textrm{atan2}(v_x, 
 theta_V = math.atan2(interceptor_velocity_xy[1], interceptor_velocity_xy[0])
 theta_a_n = theta_V + math.pi / 2
 
-interceptor_velocity_xy[0] += a_n * math.cos(theta_a_n)
-interceptor_velocity_xy[1] += a_n * math.sin(theta_a_n)
+interceptor_velocity_xy[0] += a_n * math.cos(theta_a_n) * dt
+interceptor_velocity_xy[1] += a_n * math.sin(theta_a_n) * dt
 ```
 
 The target itself isn't flying straight either. This also demonstrates PN's robustness against a maneuvering target, which is exactly where CBDR's rigid geometric solution would fall apart.
@@ -158,11 +153,11 @@ The implementation in [`ProNav3D`](https://github.com/chieftain0/ProNav/blob/mai
 
 ```python
 omega_xyz_times_RdotR = cross3D(R_xyz, Vr_xyz)
+# or RdotR = math.hypot(R_xyz[0], R_xyz[1], R_xyz[2])**2
 RdotR = dot3D(R_xyz, R_xyz)
 omega_xyz[0] = omega_xyz_times_RdotR[0] / RdotR
 omega_xyz[1] = omega_xyz_times_RdotR[1] / RdotR
 omega_xyz[2] = omega_xyz_times_RdotR[2] / RdotR
-
 a_xyz_divide_N = cross3D(Vr_xyz, omega_xyz)
 a_xyz = [a_xyz_divide_N[0] * N, a_xyz_divide_N[1] * N, a_xyz_divide_N[2] * N]
 ```
