@@ -30,7 +30,7 @@ I'll walk through three small Python simulations, in increasing order of realism
 
 Sailors know CBDR as a warning sign: if another vessel's bearing from your own ship stays constant while the range closes, you are on a collision course.
 
-[`CBDR.py`](https://github.com/chieftain0/ProNav/blob/main/CBDR.py) turns that warning into a guidance rule — instead of avoiding the constant bearing, the interceptor deliberately holds it.
+[`CBDR.py`](https://github.com/chieftain0/ProNav/blob/main/src/CBDR.py) turns that warning into a guidance rule — instead of avoiding the constant bearing, the interceptor deliberately holds it.
 
 We know the equation of a straight line:
 
@@ -100,7 +100,7 @@ Where:
 
 The intuition is that if the LOS is changing, you're not on a collision course, so turn harder in proportion to both how fast the bearing is rotating and how fast you're closing.
 
-In [`ProNav2D.py`](https://github.com/chieftain0/ProNav/blob/main/ProNav2D.py), each of these is computed directly from position history, so nothing about the target's future path is assumed:
+In [`ProNav2D.py`](https://github.com/chieftain0/ProNav/blob/main/src/ProNav2D.py), each of these is computed directly from position history, so nothing about the target's future path is assumed:
 
 ```python
 lambda_los = math.atan2(target_coordinates_xy[1] - interceptor_coordinates_xy[1], target_coordinates_xy[0] - interceptor_coordinates_xy[0])
@@ -149,7 +149,7 @@ The commanded acceleration follows the same cross-product pattern, replacing the
 
 $$\vec a_n = N \vec V_r \times \vec\omega$$
 
-The implementation in [`ProNav3D`](https://github.com/chieftain0/ProNav/blob/main/ProNav3D.py) is as follows:
+The implementation in [`ProNav3D`](https://github.com/chieftain0/ProNav/blob/main/src/ProNav3D.py) is as follows:
 
 ```python
 omega_xyz_times_RdotR = cross3D(R_xyz, Vr_xyz)
@@ -176,8 +176,8 @@ No separate "which way is normal" trigonometry is needed here, because the cross
 
 ## Takeaways
 
-- **[CBDR](https://github.com/chieftain0/ProNav/blob/main/CBDR.py)** shows **why** constant bearing implies collision — a geometric proof, not a controllable guidance law.
-- **[ProNav2D](https://github.com/chieftain0/ProNav/blob/main/ProNav2D.py)** shows **how** a real seeker, using only LOS angle and range measurements, can enforce that same condition through feedback.
-- **[ProNav3D](https://github.com/chieftain0/ProNav/blob/main/ProNav3D.py)** shows that the 2D law isn't a special case — it's a vector identity that extends cleanly once you replace scalar bearing rate with an angular velocity vector.
+- **[CBDR](https://github.com/chieftain0/ProNav/blob/main/src/CBDR.py)** shows **why** constant bearing implies collision — a geometric proof, not a controllable guidance law.
+- **[ProNav2D](https://github.com/chieftain0/ProNav/blob/main/src/ProNav2D.py)** shows **how** a real seeker, using only LOS angle and range measurements, can enforce that same condition through feedback.
+- **[ProNav3D](https://github.com/chieftain0/ProNav/blob/main/src/ProNav3D.py)** shows that the 2D law isn't a special case — it's a vector identity that extends cleanly once you replace scalar bearing rate with an angular velocity vector.
 
 Same principle throughout: **null the LOS rotation rate, and you're on a collision course.**
