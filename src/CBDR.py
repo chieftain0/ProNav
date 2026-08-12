@@ -1,7 +1,9 @@
-import math
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 import random
+import matplotlib.animation as animation
+import matplotlib.pyplot as plt
+import math
+import matplotlib
+matplotlib.use("QtAgg")
 
 dt = 1
 
@@ -88,6 +90,6 @@ def update(i):
 
 
 ani = animation.FuncAnimation(fig, update, frames=len(target_px), interval=50)
-ani.save(r"CBDR.gif", writer="pillow", fps=20)
+ani.save(r"img/CBDR.gif", writer="pillow", fps=20)
 
 plt.show()

@@ -1,6 +1,8 @@
 import math
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import matplotlib
+matplotlib.use("QtAgg")
 
 
 def cross3D(a, b):
@@ -169,7 +171,7 @@ def update(i):
 ani = animation.FuncAnimation(fig, update, frames=len(target_px), interval=50)
 
 ani.save(
-    r"ProNav3D.gif",
+    r"img/ProNav3D.gif",
     writer="pillow",
     fps=20,
 )

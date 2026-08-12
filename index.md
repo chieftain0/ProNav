@@ -78,9 +78,9 @@ c = (d_1 - interceptor_coordinates_xy[1])**2 + interceptor_coordinates_xy[0]**2 
 
 Solving the quadratic, two roots ($x_1$ and $x_2$) come out. The interceptor then solves for the corresponding $y_1$ and $y_2$ (using the equation of the line), resulting in two possible points $(x_1, y_1)$ and $(x_2, y_2)$. The interceptor jumps to whichever solution lands closer to the target, discarding the one that would send the it the "wrong way" down the line.
 
-![CBDR_graph](CBDR_graph.png)
+![CBDR_graph](img/CBDR_graph.png)
 
-![CBDR](CBDR.gif)
+![CBDR](img/CBDR.gif)
 
 **Why this works and why it's just a teaching tool rather than a real guidance law:** By construction, the interceptor is forced onto the constant-bearing line every single step. There's no sensor, no rate estimate, no control loop - pure geometry. It's a clean way to demonstrate the core idea (constant LOS angle results in collision) before introducing a law that a real seeker could actually implement using only what it can measure: range rate and LOS angle rate.
 
@@ -129,7 +129,7 @@ interceptor_velocity_xy[1] += a_n * math.sin(theta_a_n) * dt
 
 The target itself isn't flying straight either. This also demonstrates PN's robustness against a maneuvering target, which is exactly where CBDR's rigid geometric solution would fall apart.
 
-![ProNav2D](ProNav2D.gif)
+![ProNav2D](img/ProNav2D.gif)
 
 ## 3. The 3D form
 
@@ -172,7 +172,7 @@ interceptor_velocity_xyz[2] += a_xyz[2] * dt
 
 No separate "which way is normal" trigonometry is needed here, because the cross product handles direction and magnitude together. That's the real payoff of moving to vector notation. The target in this version also maneuvers in 3D, weaving its heading in the y–z plane while flying forward in x, and you can watch the interceptor's LOS line (the dashed line in the animation) staying roughly fixed in direction as the range collapses. The same CBDR condition from part 1, now emerging as a consequence of the PN law rather than being imposed directly.
 
-![ProNav3D](ProNav3D.gif)
+![ProNav3D](img/ProNav3D.gif)
 
 ## Takeaways
 
